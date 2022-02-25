@@ -24,5 +24,5 @@ tpm2_readpublic -c "$handle" -o srk.pub > srk.yaml
 ############### image setup #############
 
 modprobe nbd
-encrypt-cloud-image encrypt -o /tmp/out.vhd "$image"
-encrypt-cloud-image deploy --srk-pub ./srk.pub /tmp/out.vhd
+encrypt-cloud-image encrypt -o /tmp/livecd.ubuntu-cpc.azure.fde.encrypted.vhd --override-datasources "NoCloud" "$image"
+encrypt-cloud-image deploy --srk-pub ./srk.pub --uefi-config uefi-config.json --add-efi-secure-boot-profile /tmp/out.vhd
