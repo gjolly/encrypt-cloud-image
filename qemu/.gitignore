@@ -1,0 +1,6 @@
+*.yaml
+*.pub
+*.img
+*.vhd
+*.tar.gz
+*.ctx
