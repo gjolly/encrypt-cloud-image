@@ -35,6 +35,16 @@ clean() {
 
 trap clean EXIT
 
+###################### setup swtpm #############################
+
+mkdir -p /var/tmp/mytpm1
+swtpm socket --tpmstate dir=/var/tmp/mytpm1 \
+    --ctrl type=unixio,path=/var/tmp/mytpm1/swtpm-sock \
+    --log level=40 --tpm2 -t -d
+
+################################################################
+
+
 params="-cpu host -machine type=q35,accel=kvm -m 2048"
 params="$params -nographic -snapshot"
 params="$params -netdev id=net00,type=user,hostfwd=tcp::2222-:22"
@@ -43,7 +53,8 @@ params="$params -drive if=virtio,format=$format,file=$image"
 params="$params -drive if=virtio,format=raw,file=$seed_img"
 params="$params -drive if=pflash,format=raw,file=/usr/share/OVMF/OVMF_CODE_4M.secboot.fd,readonly=true"
 params="$params -drive if=pflash,format=raw,file=/tmp/OVMF_VARS_4M.ms.fd"
-params="$params -tpmdev passthrough,id=tpm0,path=/dev/tpm0,cancel-path=$tpm_cancel"
+params="$params -chardev socket,id=chrtpm,path=/var/tmp/mytpm1/swtpm-sock"
+params="$params -tpmdev emulator,id=tpm0,chardev=chrtpm"
 params="$params -device tpm-tis,tpmdev=tpm0"
 
 set -x
