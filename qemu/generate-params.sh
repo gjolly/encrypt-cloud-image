@@ -1,5 +1,8 @@
 #!/bin/bash -eu
 
+# Script to run on a VM to generate the SRK and UEFI config
+# required to run encrypt-cloud-image
+
 apt-get update
 apt-get install -y tpm2-tools golang
 

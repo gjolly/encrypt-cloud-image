@@ -1,5 +1,9 @@
 #!/bin/bash -eu
 
+# Custumize an Azure VHD to replace the cloud-init datasource
+# by NoCloud. This allow the VM to be configured for a local
+# use.
+
 IMAGE="$1"
 
 if [ -z "$IMAGE" ]; then
