@@ -34,7 +34,7 @@ seed_img='/tmp/seed.img'
 cloud-localds "$seed_img" "$user_data"
 
 clean() {
-  rm -f /tmp/OVMF_VARS_4M.ms.fd "$tpm_cancel" "$user_data" "$seed_img"
+  rm -f "$tpm_cancel" "$user_data" "$seed_img"
 }
 
 trap clean EXIT
@@ -52,7 +52,7 @@ swtpm socket --tpmstate dir="$TMP_DIR"/mytpm1 \
 
 
 params="-cpu host -machine type=q35,accel=kvm -m 2048"
-params="$params -nographic -snapshot"
+params="$params -nographic"
 params="$params -netdev id=net00,type=user,hostfwd=tcp::2222-:22"
 params="$params -device virtio-net-pci,netdev=net00"
 params="$params -drive if=virtio,format=$format,file=$image"
